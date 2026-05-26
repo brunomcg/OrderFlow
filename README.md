@@ -117,6 +117,8 @@ https://localhost:8080/api/login
 
 ---
 
+## Pedidos
+
 ### Criar Pedido
 
 ```http
@@ -146,7 +148,7 @@ Payload:
     }
   ]
 }
-
+```
 ---
 
 ### Listar Pedidos
