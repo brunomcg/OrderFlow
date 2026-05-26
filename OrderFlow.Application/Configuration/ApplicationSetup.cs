@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using OrderFlow.Application.Orders.Commands;
@@ -13,7 +13,6 @@ public static class ApplicationSetup
         services.AddMediatR(typeof(CreateOrderCommand).Assembly);
 
         // 2. Registra os validadores do FluentValidation 
-        // 💡 Importante: Usamos 'AddValidatorsFromAssembly' estendendo a classe correta
         services.AddValidatorsFromAssembly(typeof(CreateOrderCommand).Assembly);
 
         return services;

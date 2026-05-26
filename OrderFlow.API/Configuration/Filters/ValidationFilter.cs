@@ -1,4 +1,4 @@
-ï»¿using FluentValidation;
+using FluentValidation;
 
 namespace OrderFlow.API.Configuration.Filter;
 
@@ -13,17 +13,15 @@ public class ValidationFilter<T> : IEndpointFilter where T : class
 
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        // Se nÃ£o houver validador registrado para esse Command, segue o fluxo
         if (_validator == null) return await next(context);
 
         var argument = context.Arguments.FirstOrDefault(x => x is T) as T;
-        if (argument is null) return Results.BadRequest("Dados da requisiÃ§Ã£o invÃ¡lidos.");
+        if (argument is null) return Results.BadRequest("Dados da requisição inválidos.");
 
         var validationResult = await _validator.ValidateAsync(argument);
 
         if (!validationResult.IsValid)
         {
-            // Mapeia todos os erros para um formato simplificado (Field e Error)
             var errorDetails = validationResult.Errors
                 .Select(e => new
                 {
@@ -32,10 +30,9 @@ public class ValidationFilter<T> : IEndpointFilter where T : class
                 })
                 .ToList();
 
-            // Retorna a lista completa de erros para o Postman
             return Results.BadRequest(new
             {
-                Message = "Um ou mais erros de validaÃ§Ã£o ocorreram.",
+                Message = "Um ou mais erros de validação ocorreram.",
                 Errors = errorDetails
             });
         }

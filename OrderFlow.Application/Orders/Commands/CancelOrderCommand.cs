@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using OrderFlow.Domain.Common;
 
 namespace OrderFlow.Application.Orders.Commands;

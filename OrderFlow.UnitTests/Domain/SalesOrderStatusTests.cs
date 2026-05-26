@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using OrderFlow.Domain.Entities;
 
 namespace OrderFlow.UnitTests.Domain
@@ -8,12 +8,9 @@ namespace OrderFlow.UnitTests.Domain
         [Fact]
         public void List_DeveRetornarTresStatusComPropriedadesPreenchidas()
         {
-            // Arrange
 
-            // Act
             var list = SalesOrderStatus.List().ToList();
 
-            // Assert
             list.Should().HaveCount(3);
             list.Select(s => s.Id).Should().Equal(new[] { SalesOrderStatus.Placed.Id, SalesOrderStatus.Confirmed.Id, SalesOrderStatus.Canceled.Id });
 
@@ -39,12 +36,9 @@ namespace OrderFlow.UnitTests.Domain
         [InlineData(3, "Canceled")]
         public void FromId_DeveRetornarInstanciaCorreta_ParaIdsValidos(int id, string expectedName)
         {
-            // Arrange
 
-            // Act
             var status = SalesOrderStatus.FromId(id);
 
-            // Assert
             status.Should().NotBeNull();
             status.Id.Should().Be(id);
             status.Name.Should().Be(expectedName);
@@ -56,25 +50,20 @@ namespace OrderFlow.UnitTests.Domain
         [InlineData(-1)]
         public void FromId_DeveLancarArgumentException_QuandoIdInvalido(int invalidId)
         {
-            // Arrange
 
-            // Act
             Action act = () => SalesOrderStatus.FromId(invalidId);
 
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage("*ID de status inválido*");
+            act.Should().Throw<ArgumentException>().WithMessage("*ID de status inv�lido*");
         }
 
         [Fact]
         public void ToString_DeveRetornarONomeDoStatus()
         {
-            // Arrange
 
-            // Act
             var str = SalesOrderStatus.Placed.ToString();
 
-            // Assert
             str.Should().Be(SalesOrderStatus.Placed.Name);
         }
     }
 }
+

@@ -63,3 +63,4 @@ namespace OrderFlow.Domain.Common
         public static Result<T> Failure(string field, string error) => new Result<T>(field, error);
     }
 }
+

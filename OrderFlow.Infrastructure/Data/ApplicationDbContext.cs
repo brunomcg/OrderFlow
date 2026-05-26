@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OrderFlow.Domain.Entities;
 
 namespace OrderFlow.Infrastructure.Data;
@@ -17,8 +17,6 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Aplica automaticamente todas as configurações que herdam de IEntityTypeConfiguration
-        // presentes neste projeto de Infraestrutura
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }

@@ -1,5 +1,4 @@
-﻿namespace OrderFlow.Application.Orders.Queries.DTOs;
-    // DTO Principal do Pedido
+namespace OrderFlow.Application.Orders.Queries.DTOs;
     public record OrderDetailsDto(
         long Id,
         long CustomerId,

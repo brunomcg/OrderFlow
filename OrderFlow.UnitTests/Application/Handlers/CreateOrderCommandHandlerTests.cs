@@ -1,4 +1,4 @@
-Ôªøusing FluentAssertions;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using OrderFlow.Application.Orders.Commands;
 using OrderFlow.Application.Orders.Handlers;
@@ -18,7 +18,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
         [Fact]
         public async Task Handle_DeveCriarPedidoComSucesso_EDecrementarEstoques()
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -42,7 +41,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
 
             long createdOrderId;
 
-            // Act
             using (var actContext = new ApplicationDbContext(options))
             {
                 var handler = new CreateOrderCommandHandler(actContext);
@@ -59,13 +57,11 @@ namespace OrderFlow.UnitTests.Application.Handlers
 
                 var result = await handler.Handle(command, CancellationToken.None);
 
-                // Assert result
                 result.IsSuccess.Should().BeTrue();
                 result.Value.Should().BeGreaterThan(0);
                 createdOrderId = result.Value;
             }
 
-            // Assert: validate persisted order and product stocks in a fresh context
             using (var assertContext = new ApplicationDbContext(options))
             {
                 var order = await assertContext.SalesOrders
@@ -95,7 +91,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
         [InlineData(null)]
         public async Task Handle_DeveFalhar_QuandoItemsNuloOuVazio(System.Collections.Generic.List<OrderItemInput> items)
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -108,19 +103,16 @@ namespace OrderFlow.UnitTests.Application.Handlers
 
             var command = new CreateOrderCommand(1, "BRL", items);
 
-            // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
-            // Assert
             result.IsSuccess.Should().BeFalse();
             result.Field.Should().Be("Items");
-            result.Error.Should().Contain("N√£o √© poss√≠vel criar um pedido sem itens");
+            result.Error.Should().Contain("N„o È possÌvel criar um pedido sem itens");
         }
 
         [Fact]
         public async Task Handle_DeveFalhar_QuandoProdutoNaoEncontrado()
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -150,20 +142,17 @@ namespace OrderFlow.UnitTests.Application.Handlers
                     }
                 );
 
-                // Act
                 var result = await handler.Handle(command, CancellationToken.None);
 
-                // Assert
                 result.IsSuccess.Should().BeFalse();
                 result.Field.Should().Be("ProductId");
-                result.Error.Should().Contain("n√£o foi encontrado");
+                result.Error.Should().Contain("n„o foi encontrado");
             }
         }
 
         [Fact]
         public async Task Handle_DeveFalhar_QuandoEstoqueInsuficiente()
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -193,13 +182,12 @@ namespace OrderFlow.UnitTests.Application.Handlers
                     }
                 );
 
-                // Act
                 var result = await handler.Handle(command, CancellationToken.None);
 
-                // Assert
                 result.IsSuccess.Should().BeFalse();
                 result.Error.Should().Contain("Estoque insuficiente");
             }
         }
     }
 }
+

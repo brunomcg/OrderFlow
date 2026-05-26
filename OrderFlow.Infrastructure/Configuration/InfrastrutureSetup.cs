@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ public static class InfrastructureSetup
         IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("A String de Conex√£o 'DefaultConnection' n√£o foi encontrada.");
+            ?? throw new InvalidOperationException("A String de Conex„o 'DefaultConnection' n„o foi encontrada.");
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options
@@ -46,7 +46,7 @@ public static class InfrastructureSetup
         catch (Exception ex)
         {
             var logger = services.GetRequiredService<ILogger<ApplicationDbContext>>();
-            logger.LogError(ex, "Ocorreu um erro catastr√≥fico ao aplicar as migrations autom√°ticas ou popular o banco.");
+            logger.LogError(ex, "Ocorreu um erro catastrÛfico ao aplicar as migrations autom·ticas ou popular o banco.");
             throw;
         }
     }

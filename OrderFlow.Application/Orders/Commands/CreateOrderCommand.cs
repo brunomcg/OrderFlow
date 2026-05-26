@@ -1,9 +1,8 @@
-﻿using MediatR;
+using MediatR;
 using OrderFlow.Domain.Common;
 
 namespace OrderFlow.Application.Orders.Commands;
 
-// 💡 SOLUÇÃO: Adicionado o Currency e removido o UnitPrice dos itens
 public record CreateOrderCommand(
     long CustomerId,
     string Currency,
