@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  order-db:
+    image: postgres:16-alpine
+    container_name: order-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: order_flow_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d order_flow_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  order-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-api
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=order-db;Database=order_flow_db;Username=admin;Password=admin
+    depends_on:
+      order-db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
