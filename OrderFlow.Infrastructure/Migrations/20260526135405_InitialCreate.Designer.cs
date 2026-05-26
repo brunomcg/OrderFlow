@@ -12,7 +12,7 @@ using OrderFlow.Infrastructure.Data;
 namespace OrderFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260526131249_InitialCreate")]
+    [Migration("20260526135405_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

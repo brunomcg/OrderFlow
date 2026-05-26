@@ -1,14 +1,9 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using OrderFlow.Application.Orders.Commands;
 using OrderFlow.Application.Orders.Handlers;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Infrastructure.Data;
-using Xunit;
 
 namespace OrderFlow.UnitTests.Application.Handlers
 {

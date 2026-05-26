@@ -1,11 +1,8 @@
-using System;
-using System.Linq;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using OrderFlow.Domain.Entities;
 using OrderFlow.Infrastructure.Data;
-using Xunit;
 
 namespace OrderFlow.UnitTests.Infrastructure
 {

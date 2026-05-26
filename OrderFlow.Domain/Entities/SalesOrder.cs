@@ -1,4 +1,4 @@
-using OrderFlow.Domain.Common; // Ajustado para o seu namespace correto de Result
+using OrderFlow.Domain.Common; 
 
 namespace OrderFlow.Domain.Entities;
 
@@ -24,7 +24,7 @@ public class SalesOrder
         CustomerId = customerId;
         CurrencyCode = currency;
         CreatedAt = DateTime.UtcNow;
-        SalesOrderStatusId = SalesOrderStatus.Placed.Id; // Define o ID inicial (1)
+        SalesOrderStatusId = SalesOrderStatus.Placed.Id;
         Total = 0m;
     }
 

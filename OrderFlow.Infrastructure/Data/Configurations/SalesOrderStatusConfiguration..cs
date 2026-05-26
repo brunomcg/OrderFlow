@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderFlow.Domain.Entities;
 
-namespace OrderFlow.Infrastructure.Data.Mappings;
+namespace OrderFlow.Infrastructure.Data.Configurations;
 
-public class OrderStatusConfiguration : IEntityTypeConfiguration<SalesOrderStatus>
+public class SalesOrderStatusConfiguration : IEntityTypeConfiguration<SalesOrderStatus>
 {
     public void Configure(EntityTypeBuilder<SalesOrderStatus> builder)
     {

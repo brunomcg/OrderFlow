@@ -1,8 +1,6 @@
-using FluentAssertions;
 using FluentValidation.TestHelper;
 using OrderFlow.Application.Orders.Queries;
 using OrderFlow.Application.Orders.Validators;
-using Xunit;
 
 namespace OrderFlow.UnitTests.Application.Validators
 {
