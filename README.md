@@ -117,8 +117,6 @@ https://localhost:8080/api/login
 
 ---
 
-## Pedidos
-
 ### Criar Pedido
 
 ```http
@@ -130,6 +128,24 @@ Exemplo:
 ```text
 https://localhost:8080/api/v1/orders
 ```
+
+Payload:
+
+```json
+{
+  "customerId": 2,
+  "currency": "BRL",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    },
+    {
+      "productId": 2,
+      "quantity": 2
+    }
+  ]
+}
 
 ---
 
