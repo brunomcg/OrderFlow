@@ -1,4 +1,4 @@
-Ôªøusing FluentAssertions;
+using FluentAssertions;
 using OrderFlow.Domain.Entities;
 
 namespace OrderFlow.UnitTests.Domain
@@ -8,10 +8,8 @@ namespace OrderFlow.UnitTests.Domain
         [Fact]
         public void List_DeveRetornarMoedasSuportadasComPropriedadesPreenchidas()
         {
-            // Arrange & Act
             var list = Currency.List().ToList();
 
-            // Assert
             list.Should().HaveCount(3);
             list.Select(c => c.Code).Should().BeEquivalentTo(new[] { "BRL", "USD", "EUR" }, options => options.WithStrictOrdering());
 
@@ -24,7 +22,7 @@ namespace OrderFlow.UnitTests.Domain
             usd.Name.Should().Be("United States Dollar");
 
             var eur = list.First(c => c.Code == "EUR");
-            eur.Symbol.Should().Be("‚Ç¨");
+            eur.Symbol.Should().Be("Ä");
             eur.Name.Should().Be("Euro");
         }
 
@@ -38,15 +36,11 @@ namespace OrderFlow.UnitTests.Domain
         [InlineData(" eur ")]
         public void FromCode_DeveRetornarInstanciaCorreta_QuandoCodigoValido(string input)
         {
-            // Arrange
 
-            // Act
             var currency = Currency.FromCode(input);
 
-            // Assert
             currency.Should().NotBeNull();
             currency.Code.Should().Be(currency.ToString());
-            // Also assert that the returned Code exists in the supported list
             Currency.List().Select(c => c.Code).Should().Contain(currency.Code);
         }
 
@@ -56,21 +50,18 @@ namespace OrderFlow.UnitTests.Domain
         [InlineData("ABC")]
         public void FromCode_DeveLancarArgumentException_QuandoCodigoInvalido(string invalid)
         {
-            // Arrange & Act
             Action act = () => Currency.FromCode(invalid);
 
-            // Assert
-            act.Should().Throw<ArgumentException>().WithMessage("*Moeda n√£o suportada*");
+            act.Should().Throw<ArgumentException>().WithMessage("*Moeda n„o suportada*");
         }
 
         [Fact]
         public void ToString_DeveRetornarOCodigoDaMoeda()
         {
-            // Arrange & Act
             var str = Currency.BRL.ToString();
 
-            // Assert
             str.Should().Be("BRL");
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using OrderFlow.Application.Orders.Handlers;
 using OrderFlow.Application.Orders.Queries;
@@ -11,7 +11,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
     {
         private static async Task SeedDatabaseAsync(ApplicationDbContext context)
         {
-            // Insere os Smart Enums de Status na base em memória
             context.AddRange(SalesOrderStatus.List());
             await context.SaveChangesAsync();
         }
@@ -19,7 +18,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
         [Fact]
         public async Task Handle_DeveRetornarPedidoComSucesso_QuandoPedidoExiste()
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -27,7 +25,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
 
             long prodAId, prodBId, orderId;
 
-            // 1) Arrange: criar produtos e pedido em contexto separado
             using (var arrangeContext = new ApplicationDbContext(options))
             {
                 await SeedDatabaseAsync(arrangeContext);
@@ -53,13 +50,11 @@ namespace OrderFlow.UnitTests.Application.Handlers
                 orderId = order.Id;
             }
 
-            // Act: ler via handler em novo contexto para simular request
             using (var actContext = new ApplicationDbContext(options))
             {
                 var handler = new GetOrderByIdQueryHandler(actContext);
                 var result = await handler.Handle(new GetOrderByIdQuery(orderId), CancellationToken.None);
 
-                // Assert: resultado de sucesso e DTO preenchido
                 result.IsSuccess.Should().BeTrue();
                 var dto = result.Value;
                 dto.Should().NotBeNull();
@@ -86,7 +81,6 @@ namespace OrderFlow.UnitTests.Application.Handlers
         [Fact]
         public async Task Handle_DeveRetornarFalha_QuandoPedidoNaoEncontrado()
         {
-            // Arrange
             var dbName = Guid.NewGuid().ToString();
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(dbName)
@@ -95,19 +89,17 @@ namespace OrderFlow.UnitTests.Application.Handlers
             using (var arrangeContext = new ApplicationDbContext(options))
             {
                 await SeedDatabaseAsync(arrangeContext);
-                // sem inserir pedidos
             }
 
-            // Act
             using (var actContext = new ApplicationDbContext(options))
             {
                 var handler = new GetOrderByIdQueryHandler(actContext);
                 var result = await handler.Handle(new GetOrderByIdQuery(999), CancellationToken.None);
 
-                // Assert
                 result.IsSuccess.Should().BeFalse();
-                result.Error.Should().Contain("não foi encontrado");
+                result.Error.Should().Contain("n�o foi encontrado");
             }
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +10,7 @@ using System.Text;
 public static class ApiSetup
 {
     /// <summary>
-    /// Centraliza todas as injeções de dependência da camada de API.
+    /// Centraliza todas as inje��es de depend�ncia da camada de API.
     /// </summary>
     public static IServiceCollection AddApiServices(
         this IServiceCollection services,
@@ -19,14 +19,11 @@ public static class ApiSetup
     {
         services.AddControllers();
 
-        // 💡 1. Configura o tratamento global de exceções na injeção de dependência
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 
-        // 2. Inicializa o Versionamento e Swagger
         services.AddApiVersioningAndSwagger();
 
-        // 3. Inicializa a segurança da API movida para cá
         services.AddSecurityConfig(configuration, environment);
 
         return services;
@@ -37,7 +34,6 @@ public static class ApiSetup
     /// </summary>
     public static IApplicationBuilder UseErrorHandling(this IApplicationBuilder app)
     {
-        // 💡 Ativa o middleware de exceções que interceptará os erros e usará o GlobalExceptionHandler
         app.UseExceptionHandler();
 
         return app;
@@ -62,7 +58,6 @@ public static class ApiSetup
             options.SubstituteApiVersionInUrl = true;
         });
 
-        // Conecta com o seu arquivo ConfigureSwaggerOptions.cs externo
         services.ConfigureOptions<ConfigureSwaggerOptions>();
         services.AddSwaggerGen();
 
@@ -70,7 +65,7 @@ public static class ApiSetup
     }
 
     /// <summary>
-    /// Monta a interface do Swagger UI mapeando as versões dinamicamente.
+    /// Monta a interface do Swagger UI mapeando as vers�es dinamicamente.
     /// </summary>
     public static IApplicationBuilder UseSwaggerWithVersioning(
         this IApplicationBuilder app,
@@ -91,7 +86,7 @@ public static class ApiSetup
     }
 
     /// <summary>
-    /// Configura a segurança JWT e a política de fallback de rotas (Muralha de Segurança).
+    /// Configura a seguran�a JWT e a pol�tica de fallback de rotas (Muralha de Seguran�a).
     /// </summary>
     public static IServiceCollection AddSecurityConfig(
         this IServiceCollection services,
@@ -99,7 +94,7 @@ public static class ApiSetup
         IWebHostEnvironment environment)
     {
         var secretKey = configuration["Jwt:SecretKey"]
-            ?? throw new InvalidOperationException("A chave secreta do JWT não foi configurada.");
+            ?? throw new InvalidOperationException("A chave secreta do JWT n�o foi configurada.");
         var issuer = configuration["Jwt:Issuer"] ?? "OrderFlowLocalAuth";
         var audience = configuration["Jwt:Audience"] ?? "OrderFlowLocalApi";
 
@@ -127,9 +122,6 @@ public static class ApiSetup
             };
         });
 
-        // =========================================================================
-        // MURALHA DE SEGURANÇA INTELIGENTE: Bloqueia tudo, mas libera o Swagger local
-        // =========================================================================
         services.AddAuthorization(options =>
         {
             options.FallbackPolicy = new AuthorizationPolicyBuilder()

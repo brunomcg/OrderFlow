@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OrderFlow.Domain.Entities;
 
 namespace OrderFlow.Infrastructure.Data
@@ -15,7 +15,7 @@ namespace OrderFlow.Infrastructure.Data
             var products = new List<Product>
             {
                Product.Create("Mouse Gamer Wireless", 250.00m, 100).Value,
-               Product.Create("Teclado Mecânico RGB", 450.90m, 200).Value,
+               Product.Create("Teclado Mec�nico RGB", 450.90m, 200).Value,
                Product.Create("Monitor 24' IPS 144Hz", 1199.00m, 50).Value
             };
 
@@ -25,3 +25,4 @@ namespace OrderFlow.Infrastructure.Data
         }
     }
 }
+

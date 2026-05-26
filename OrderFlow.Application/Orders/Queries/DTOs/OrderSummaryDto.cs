@@ -1,4 +1,4 @@
-﻿namespace OrderFlow.Application.Orders.Queries.DTOs;
+namespace OrderFlow.Application.Orders.Queries.DTOs;
 
 public record OrderSummaryDto(
     long Id,
@@ -6,3 +6,4 @@ public record OrderSummaryDto(
     string Status,
     decimal TotalAmount,
     DateTime CreatedAt);
+

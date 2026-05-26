@@ -1,4 +1,4 @@
-Ôªøusing Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace OrderFlow.API.Configuration.Middlewares
 {
@@ -9,7 +9,6 @@ namespace OrderFlow.API.Configuration.Middlewares
             Exception exception,
             CancellationToken cancellationToken)
         {
-            // Intercepta especificamente falhas de requisi√ß√£o malformada (como o erro de bind do long)
             if (exception is BadHttpRequestException)
             {
                 httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -17,13 +16,12 @@ namespace OrderFlow.API.Configuration.Middlewares
                 await httpContext.Response.WriteAsJsonAsync(new
                 {
                     Field = "QueryString/Body",
-                    Error = "Um ou mais par√¢metros enviados na requisi√ß√£o possuem um formato inv√°lido ou malformado."
+                    Error = "Um ou mais par‚metros enviados na requisiÁ„o possuem um formato inv·lido ou malformado."
                 }, cancellationToken);
 
                 return true; // Erro tratado com sucesso
             }
 
-            // Para qualquer outro erro interno (500) que possa acontecer na API
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await httpContext.Response.WriteAsJsonAsync(new
             {
@@ -34,3 +32,4 @@ namespace OrderFlow.API.Configuration.Middlewares
         }
     }
 }
+

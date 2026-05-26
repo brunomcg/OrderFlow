@@ -1,4 +1,4 @@
-﻿using Asp.Versioning.ApiExplorer;
+using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -16,7 +16,6 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 
     public void Configure(SwaggerGenOptions options)
     {
-        // Cria automaticamente uma documentação no Swagger para cada versão encontrada no projeto
         foreach (var description in _provider.ApiVersionDescriptions)
         {
             options.SwaggerDoc(description.GroupName, new OpenApiInfo
@@ -24,7 +23,7 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
                 Title = $"OrderFlow API {description.ApiVersion}",
                 Version = description.ApiVersion.ToString(),
                 Description = description.IsDeprecated
-                    ? "⚠️ Esta versão foi descontinuada. Use uma versão mais recente."
+                    ? "?? Esta vers�o foi descontinuada. Use uma vers�o mais recente."
                     : "API de gerenciamento de pedidos do OrderFlow."
             });
         }

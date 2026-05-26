@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using OrderFlow.Application.Orders.Commands;
 
 namespace OrderFlow.Application.Orders.Validators;

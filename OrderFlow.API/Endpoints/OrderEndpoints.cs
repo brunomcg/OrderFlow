@@ -1,4 +1,4 @@
-﻿using Asp.Versioning;
+using Asp.Versioning;
 using MediatR;
 using OrderFlow.API.Configuration.Filter;
 using OrderFlow.Application.Orders.Commands;
@@ -11,18 +11,14 @@ public static class OrderEndpoints
 {
     public static void MapOrderEndpoints(this IEndpointRouteBuilder app)
     {
-        // 1. Define o conjunto de versões que este arquivo de endpoints gerencia
         var versionSet = app.NewApiVersionSet()
             .HasApiVersion(new ApiVersion(1, 0)) // Define a V1 (1.0)
             .Build();
 
-        // 2. Cria o grupo base com o padrão de rota versionada {version:apiVersion}
-        // Nota: O .RequireAuthorization() foi removido daqui pois o FallbackPolicy já tranca tudo!
         var group = app.MapGroup("/api/v{version:apiVersion}/orders")
             .WithApiVersionSet(versionSet)
             .WithTags("Orders");
 
-        // 3. Mapeia os endpoints vinculando-os explicitamente à V1
         group.MapPost("/", CreateOrderAsync)
             .WithName("CreateOrder")
             .AddEndpointFilter<ValidationFilter<CreateOrderCommand>>()
@@ -73,7 +69,6 @@ public static class OrderEndpoints
         IMediator mediator,
         CancellationToken cancellationToken)
     {
-        // Envia o comando que já passou pelo seu FluentValidation através do filtro
         var result = await mediator.Send(command, cancellationToken);
 
         if (!result.IsSuccess)
@@ -85,17 +80,15 @@ public static class OrderEndpoints
             });
         }
 
-        // Retorna 204 NoContent para indicar sucesso em uma alteração de estado limpa
         return Results.NoContent();
     }
 
  
     private static async Task<IResult> CancelOrderAsync(
-    [AsParameters] CancelOrderCommand command, // 💡 O .NET vai instanciar o comando usando o {id} da URL
+    [AsParameters] CancelOrderCommand command, // ?? O .NET vai instanciar o comando usando o {id} da URL
     IMediator mediator,
     CancellationToken cancellationToken)
     {
-        // Envia o comando que já passou pelo seu FluentValidation através do filtro
         var result = await mediator.Send(command, cancellationToken);
 
         if (!result.IsSuccess)
@@ -107,16 +100,14 @@ public static class OrderEndpoints
             });
         }
 
-        // Retorna 204 NoContent para indicar sucesso em uma alteração de estado limpa
         return Results.NoContent();
     }
 
     private static async Task<IResult> GetOrderByIdAsync(
-     [AsParameters] GetOrderByIdQuery query, // ◄ O .NET mapeia o {id} da URL direto para cá
+     [AsParameters] GetOrderByIdQuery query, // ? O .NET mapeia o {id} da URL direto para c�
      IMediator mediator,
      CancellationToken cancellationToken)
     {
-        // Como a query já vem montada e validada pelo filtro, é só enviar direto!
         var result = await mediator.Send(query, cancellationToken);
 
         if (!result.IsSuccess)
@@ -128,12 +119,10 @@ public static class OrderEndpoints
     }
 
     private static async Task<IResult> ListOrdersAsync(
-    [AsParameters] ListOrdersQuery query, // ◄ O .NET junta todos os parâmetros da URL e monta o objeto aqui
+    [AsParameters] ListOrdersQuery query, // ? O .NET junta todos os par�metros da URL e monta o objeto aqui
     IMediator mediator,
     CancellationToken cancellationToken)
     {
-        // 💡 Fantástico: Você elimina toda a lógica manual de "page ?? 1" e "new ListOrdersQuery(...)"!
-        // Se o cliente não enviar os parâmetros, o FluentValidation barra no filtro antes de entrar aqui.
 
         var result = await mediator.Send(query, cancellationToken);
 

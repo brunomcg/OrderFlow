@@ -9,7 +9,6 @@ public class Product
     public decimal UnitPrice { get; private set; }
     public int AvailableQuantity { get; private set; }
 
-    // Construtor privado para garantir que a criação passe apenas pelo Factory Method
     private Product(string name, decimal unitPrice, int availableQuantity)
     {
         Name = name;
@@ -17,10 +16,8 @@ public class Product
         AvailableQuantity = availableQuantity;
     }
 
-    // Construtor protegido exigido pelo Entity Framework Core para a Infraestrutura
     protected Product() { }
 
-    // Factory Method: Única porta de entrada pública para criar um produto de forma segura
     public static Result<Product> Create(string name, decimal unitPrice, int availableQuantity)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -32,13 +29,11 @@ public class Product
         if (availableQuantity < 0)
             return Result<Product>.Failure(nameof(availableQuantity), "Quantidade disponível não pode ser negativa.");
 
-        // Se passou em todas as validações, cria e encapsula a instância no Result de sucesso
         var product = new Product(name.Trim(), unitPrice, availableQuantity);
 
         return Result<Product>.Success(product);
     }
 
-    // 💡 Ajustado o comentário: Retorna Result.Failure se o estoque for insuficiente.
     public Result DeductStock(int quantity)
     {
         if (quantity <= 0)
@@ -52,7 +47,6 @@ public class Product
         return Result.Success();
     }
 
-    // Libera (adiciona) quantidade ao estoque (útil se o pedido for Cancelado)
     public Result ReleaseStock(int quantity)
     {
         if (quantity <= 0)

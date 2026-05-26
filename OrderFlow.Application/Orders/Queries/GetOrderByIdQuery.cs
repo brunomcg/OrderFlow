@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using OrderFlow.Application.Orders.Queries.DTOs;
 using OrderFlow.Domain.Common;
 

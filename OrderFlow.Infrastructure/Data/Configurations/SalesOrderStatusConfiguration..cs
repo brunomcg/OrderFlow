@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderFlow.Domain.Entities;
 
@@ -10,10 +10,8 @@ public class OrderStatusConfiguration : IEntityTypeConfiguration<SalesOrderStatu
     {
         builder.ToTable("sales_order_status");
 
-        // Define a chave primária
         builder.HasKey(os => os.Id);
 
-        // Define que o Id não será auto-incremento (Identity), pois nós controlamos os IDs fixos no C#
         builder.Property(os => os.Id)
             .ValueGeneratedNever();
 
@@ -25,9 +23,6 @@ public class OrderStatusConfiguration : IEntityTypeConfiguration<SalesOrderStatu
             .HasMaxLength(250)
             .IsRequired();
 
-        // ==========================================
-        // DATA SEEDING: Alimenta a tabela de domínio automaticamente
-        // ==========================================
         builder.HasData(SalesOrderStatus.List());
     }
 }

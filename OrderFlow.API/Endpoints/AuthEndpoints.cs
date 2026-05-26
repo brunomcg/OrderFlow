@@ -1,4 +1,4 @@
-ï»¿using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 using OrderFlow.API.Configuration.Filter;
 using OrderFlow.API.Endpoints.DTOs;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,12 +11,10 @@ public static class AuthEndpoints
 {
     public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        // 1. Criamos um conjunto de versÃ£o que define essa rota como NEUTRA
         var versionSet = app.NewApiVersionSet()
-            .IsApiVersionNeutral() // â—„ Diz que este endpoint serve para QUALQUER versÃ£o
+            .IsApiVersionNeutral() // ? Diz que este endpoint serve para QUALQUER versão
             .Build();
 
-        // 2. Aplicamos o versionSet no endpoint
         app.MapPost("/api/login", (CustomLoginRequest request, IConfiguration configuration) =>
         {
             var expectedUsername = configuration["TestCredentials:Username"];
@@ -30,10 +28,10 @@ public static class AuthEndpoints
 
             return Results.Unauthorized();
         })
-        .WithApiVersionSet(versionSet) // â—„ Vincula ao comportamento neutro
+        .WithApiVersionSet(versionSet) // ? Vincula ao comportamento neutro
         .WithTags("Auth")
         .AddEndpointFilter<ValidationFilter<CustomLoginRequest>>()
-        .AllowAnonymous(); // MantÃ©m a exceÃ§Ã£o pÃºblica na muralha de seguranÃ§a
+        .AllowAnonymous(); // Mantém a exceção pública na muralha de segurança
     }
 
     private static string GenerateJwtToken(string username, string role, IConfiguration configuration)
@@ -52,7 +50,7 @@ public static class AuthEndpoints
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role)
             }),
-            Expires = DateTime.UtcNow.AddHours(1), //Token expira em 1 hora, neste caso em um anbiente de coorporativo, pode-se aplicar validaÃ§Ã£o com Blacklist (HÃ­brido) para invalidar tokens antigos 
+            Expires = DateTime.UtcNow.AddHours(1), //Token expira em 1 hora, neste caso em um anbiente de coorporativo, pode-se aplicar validação com Blacklist (Híbrido) para invalidar tokens antigos 
             Issuer = issuer,
             Audience = audience,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
