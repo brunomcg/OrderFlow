@@ -112,7 +112,7 @@ POST /api/login
 Exemplo:
 
 ```text
-https://localhost:8080/api/login
+http://localhost:8080/api/login
 ```
 
 ---
@@ -128,7 +128,7 @@ POST /api/v1/orders
 Exemplo:
 
 ```text
-https://localhost:8080/api/v1/orders
+http://localhost:8080/api/v1/orders
 ```
 
 Payload:
@@ -172,7 +172,7 @@ Parâmetros disponíveis:
 Exemplo:
 
 ```text
-https://localhost:8080/api/v1/orders?Id=1&CustomerId=2&Status=1&From=2026-05-26&To=2026-05-26&Page=1&PageSize=10
+http://localhost:8080/api/v1/orders?Id=1&CustomerId=2&Status=1&From=2026-05-26&To=2026-05-26&Page=1&PageSize=10
 ```
 
 ---
@@ -186,7 +186,7 @@ GET /api/v1/orders/{id}
 Exemplo:
 
 ```text
-https://localhost:8080/api/v1/orders/3
+http://localhost:8080/api/v1/orders/3
 ```
 
 ---
@@ -200,7 +200,7 @@ POST /api/v1/orders/{id}/confirm
 Exemplo:
 
 ```text
-https://localhost:8080/api/v1/orders/1/confirm
+http://localhost:8080/api/v1/orders/1/confirm
 ```
 
 ---
@@ -214,7 +214,7 @@ POST /api/v1/orders/{id}/cancel
 Exemplo:
 
 ```text
-https://localhost:8080/api/v1/orders/1/cancel
+http://localhost:8080/api/v1/orders/1/cancel
 ```
 
 ---

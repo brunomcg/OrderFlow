@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using OrderFlow.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
+using OrderFlow.Infrastructure.Data;
 
 namespace OrderFlow.Infrastructure.Configuration;
 
@@ -18,9 +19,14 @@ public static class InfrastructureSetup
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options
-                .UseNpgsql(connectionString, postgresOptions =>
-                    postgresOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                .UseSnakeCaseNamingConvention());
+                .UseNpgsql(
+                    connectionString,
+                    postgresOptions =>
+                        postgresOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+                .UseSnakeCaseNamingConvention()
+                .ConfigureWarnings(w =>
+                    w.Ignore(RelationalEventId.PendingModelChangesWarning))
+        );
 
         return services;
     }
@@ -46,7 +52,8 @@ public static class InfrastructureSetup
         catch (Exception ex)
         {
             var logger = services.GetRequiredService<ILogger<ApplicationDbContext>>();
-            logger.LogError(ex, "Ocorreu um erro catastrófico ao aplicar as migrations automáticas ou popular o banco.");
+            logger.LogError(ex,
+                "Ocorreu um erro ao aplicar migrations ou popular o banco.");
             throw;
         }
     }
